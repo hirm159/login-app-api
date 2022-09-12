@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+	id 'com.thinkimi.gradle.MybatisGenerator' version '2.4'
+}
+
+group = 'com.hirm159'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+mybatisGenerator {
+    verbose = true
+    // 設定ファイル
+    configFile = 'src/main/resources/generatorConfig.xml'
+
+    dependencies {
+        mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.4.1'
+        mybatisGenerator 'org.postgresql:postgresql'
+    }
+}
+
+configurations {
+    mybatisGenerator
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation  'org.mybatis.generator:mybatis-generator-core:1.4.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'org.postgresql:postgresql'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
