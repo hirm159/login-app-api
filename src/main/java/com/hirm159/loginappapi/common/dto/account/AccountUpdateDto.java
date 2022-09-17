@@ -1,4 +1,4 @@
-package com.hirm159.loginappapi.common.dto;
+package com.hirm159.loginappapi.common.dto.account;
 
 import lombok.Data;
 
