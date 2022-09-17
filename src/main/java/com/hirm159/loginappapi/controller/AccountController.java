@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hirm159.loginappapi.common.constant.CommonConstants;
 import com.hirm159.loginappapi.common.dto.account.AccountInputDto;
 import com.hirm159.loginappapi.common.dto.account.AccountResultDto;
 import com.hirm159.loginappapi.common.dto.account.AccountUpdateDto;
@@ -28,12 +29,12 @@ public class AccountController {
 
 		if (accountService.checkUsername(input.getUsername())) {
 			Account newAccount = accountService.accountInput(input);
-			result.result = "SUCCESS";
-			result.message = "アカウントの作成が完了しました。";
+			result.result = CommonConstants.SUCCESS;
+			result.message = CommonConstants.ACCOUNT_CREATED_SUCCESS_MESSAGE;
 			result.setId(newAccount.getId());
 		} else {
-			result.result = "NG";
-			result.message = "すでに存在するユーザー名です。";
+			result.result = CommonConstants.ERROR;
+			result.message = CommonConstants.ACCOUNT_CREATED_FAILED_MESSAGE;
 			result.setId(0);
 		}
 		result.setUsername(input.getUsername());
