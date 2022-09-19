@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hirm159.loginappapi.common.constant.CommonConstants;
+import com.hirm159.loginappapi.common.dto.account.AccountDeleteDto;
 import com.hirm159.loginappapi.common.dto.account.AccountInputDto;
 import com.hirm159.loginappapi.common.dto.account.AccountResultDto;
 import com.hirm159.loginappapi.common.dto.account.AccountUpdateDto;
@@ -48,8 +49,11 @@ public class AccountController {
 		accountService.accountUpdate(input);
 	}
 
-
 	// アカウント削除処理
+	@RequestMapping(path = "/", method = RequestMethod.POST)
+	public void deleteAccount (@RequestBody AccountDeleteDto input) {
+		
+	}
 
 	// アカウント検索処理
 
