@@ -1,13 +1,12 @@
 package com.hirm159.loginappapi.common.dto.account;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class AccountInputDto {
+@EqualsAndHashCode(callSuper = false)
+public class AccountInputDto extends AccountCommonDto {
 
-	public String username;
+    public String mailAddress;
 
-	public String password;
-
-	public String mailAddress;
 }

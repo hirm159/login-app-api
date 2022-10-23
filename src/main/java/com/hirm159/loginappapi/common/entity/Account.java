@@ -17,6 +17,7 @@ public class Account {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private String username;
 
 	private String password;

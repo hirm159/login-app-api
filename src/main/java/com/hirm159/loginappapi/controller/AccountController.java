@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hirm159.loginappapi.common.constant.CommonConstants;
+import com.hirm159.loginappapi.common.dto.account.AccountCommonDto;
 import com.hirm159.loginappapi.common.dto.account.AccountDeleteDto;
 import com.hirm159.loginappapi.common.dto.account.AccountInputDto;
 import com.hirm159.loginappapi.common.dto.account.AccountResultDto;
@@ -55,4 +56,13 @@ public class AccountController {
 		
 	}
 
+	// アカウントテスト認証処理
+	@RequestMapping(path = "/login-test", method = RequestMethod.POST)
+	public String loginTest(@RequestBody AccountCommonDto dto) {
+	    Account account = accountService.accountAuth(dto);
+	    if (account != null) {
+	        return "true";
+	    }
+	    return "faied";
+	}
 }

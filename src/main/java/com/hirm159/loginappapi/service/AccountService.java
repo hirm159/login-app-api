@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.hirm159.loginappapi.common.dto.account.AccountCommonDto;
 import com.hirm159.loginappapi.common.dto.account.AccountInputDto;
 import com.hirm159.loginappapi.common.dto.account.AccountUpdateDto;
 import com.hirm159.loginappapi.common.entity.Account;
@@ -25,7 +26,7 @@ public class AccountService {
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	
+
 	// ACCOUNTへのINSERT処理
 	public Account accountInput(AccountInputDto input) {
 		Account inputAccount = new Account();
@@ -60,13 +61,33 @@ public class AccountService {
 		return account;
 	}
 
+	// 認証処理
+	public Account accountAuth(AccountCommonDto dto) {
+	    String username = dto.getUsername();
+	    String inputPassword = dto.getPassword();
+        Account account = selectOne(username);
+        if (authPassword(account, inputPassword)) {
+            return account;
+        }
+        return null;
+	}
+
 	// パスワード生成処理
 	private String createPassword(String username, String password) {
 		if (username != null && password != null) {
-			String newPassword = DigestUtils.md5Hex(username + password) ;
+			String newPassword = DigestUtils.md5Hex(username + password);
 			return newPassword;
 		}
 		return null;
+	}
+
+	// パスワード認証処理
+	private boolean authPassword(Account account, String inputPassword) {
+	    String authPassword = DigestUtils.md5Hex(account.getUsername() + inputPassword);
+	    if(account.getPassword().equals(authPassword)) {
+	        return true;
+	    }
+	    return false;
 	}
 
 	// 時刻更新処理
@@ -79,19 +100,40 @@ public class AccountService {
 	public boolean checkUsername(String username) {
 		String sql = """
 				SELECT
-				    COUNT(*) 
+				    COUNT(*)
 				FROM
-				    account 
+				    account
 				WHERE
 				    username = :username
 				""";
 		Map<String, Object> params = new HashMap<>();
 		params.put("username", username);
 		Integer count = (Integer) jdbcTemplate.queryForObject(sql, params, Integer.class);
-		if (count < 1) {
-			return true;
+		if (count != null) {
+		     if (count < 1) {
+	            return true;
+	         }   
 		}
 
 		return false;
 	}
+
+	// ユーザー詳細検索
+	private Account selectOne(String username) {
+	    String sql = """
+	            SELECT
+	                id
+	            FROM
+	                account
+	            WHERE
+	                username = :username
+	            """;
+       Map<String, Object> params = new HashMap<>();
+       params.put("username", username);
+       Integer id = (Integer) jdbcTemplate.queryForObject(sql, params, Integer.class);
+       Account account = accountRepository.getReferenceById(id);
+
+       return account;
+	}
+	
 }
