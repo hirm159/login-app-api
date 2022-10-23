@@ -50,14 +50,9 @@ public class AccountController {
 	}
 
 	// アカウント削除処理
-	@RequestMapping(path = "/", method = RequestMethod.POST)
+	@RequestMapping(path = "/delete", method = RequestMethod.POST)
 	public void deleteAccount (@RequestBody AccountDeleteDto input) {
 		
 	}
-
-	// アカウント検索処理
-
-	// 新規アカウント作成リクエスト処理
-
 
 }
